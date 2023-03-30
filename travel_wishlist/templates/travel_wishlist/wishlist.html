@@ -2,7 +2,7 @@
 {% block content %}
 
 <h2>Travel Wishlist</h2>
-
+<!-- POST because we are creating a new thing -->
 <form method="POST" action="{% url 'place_list' %}">
   {% csrf_token %}
   {{ new_place_form }}
@@ -10,21 +10,18 @@
 </form>
 
 {% for place in places %}
-
 <div class="wishlist-place">
-  <span id="place-name-{{ place.pk }}" class="place-name">{{ place.name }}</span>
-
+  <span id="place-name-{{ place.pk }}" class="place-name">
+    <a href="{% url 'place_details' place.pk %}">{{ place.name }}</a>
+  </span>
+  <!-- url means look up the url in the list of urls, look up by the name 'place_was_visited' -->
   <form class="visited-form" method="POST" action="{%url 'place_was_visited' place.pk %}">
     {% csrf_token %}
     <button id="visited-button-{{ place.pk }}">Visited!</button>
   </form>
-
 </div>
-
 {% empty %}
-
 <p>You have no places in your wishlist.</p>
-
 {% endfor %}
 
 {% endblock %}
